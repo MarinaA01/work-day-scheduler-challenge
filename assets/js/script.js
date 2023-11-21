@@ -2,29 +2,64 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 var rootEl = $('#root');
-var today = dayjs();
-
-
 
 $(function () {
-    // TODO: Add a listener for click events on the save button. This code should
-    // use the id in the containing time-block as a key to save the user input in
-    // local storage. HINT: What does `this` reference in the click listener
-    // function? How can DOM traversal be used to get the "hour-x" id of the
-    // time-block containing the button that was clicked? How might the id be
-    // useful when saving the description in local storage?
-    //
-    // TODO: Add code to apply the past, present, or future class to each time
-    // block by comparing the id to the current hour. HINTS: How can the id
-    // attribute of each time-block be used to conditionally add or remove the
-    // past, present, and future classes? How can Day.js be used to get the
-    // current hour in 24-hour time?
-    //
-    // TODO: Add code to get any user input that was saved in localStorage and set
-    // the values of the corresponding textarea elements. HINT: How can the id
-    // attribute of each time-block be used to do this?
-    //
-    // TODO: Add code to display the current date in the header of the page.
+    var today = dayjs();
+    var hour = dayjs().startOf(hour).format('H A');
+    var button = $('.saveBtn')
+    var description = $('.description')
+
+
+    function timeBlocks() {
+        $('.time-block').each(function() {
+            const schedule = parseInt(this.id);
+            $(this).toggleClass('past', schedule < hour);
+            $(this).toggleClass('present', schedule === hour);
+            $(this).toggleClass('future', schedule > hour);
+        });
+    }
+
+    // Local Storage function
+    function textContent() {
+        button.click(function(event) {
+            event.preventDefault();
+            const key = $(this).parent().attr('id');
+            const description = description.val('')
+            // code from Tiny called JavaScript and localStorage in a nutshell https://www.tiny.cloud/blog/javascript-localstorage/
+            localStorage.setItem(key, description);
+        });
+    }
+
+    function changeColor() {
+        $('.time-block').each(function() {
+            const schedule = parseInt(this.id);
+            if (schedule == hour) {
+                // Code from StackOverflow titled JQuery Find #ID RemoveClass and AddClass https://stackoverflow.com/questions/2407179/jquery-find-id-removeclass-and-addclass
+                $(this).removeClass('past future').addClass('present');
+            } else if (schedule < hour) {
+                $(this).removeClass('present future').addClass('past');
+            } else {
+                $(this).removeClass('past present').addClass('future');
+            }
+        });
+    }
+
+    // Local Storage function 
+    $('.time-block').each(function() {
+        const key = $(this).attr('id');
+        const value = localStorage.getItem(key);
+        $(this).children('.description').val(value);
+    })
+
+
+
+// Calling all the functions needed
+    timeBlocks();
+    textContent();
+    changeColor();
+
+
+    // Current Day code at the top of the page
+
     $('#currentDay').text(today.format('dddd, MMMM DD'));
-  });
-  
+});
