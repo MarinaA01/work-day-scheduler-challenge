@@ -13,9 +13,17 @@ $(function () {
     function timeBlocks() {
         $('.time-block').each(function() {
             const schedule = parseInt(this.id);
-            $(this).toggleClass('past', schedule < hour);
-            $(this).toggleClass('present', schedule === hour);
-            $(this).toggleClass('future', schedule > hour);
+            // Code from JQuery Documentation - https://api.jquery.com/toggleClass/
+            // $(this).toggleClass('past', schedule < hour);
+            // $(this).toggleClass('present', schedule === hour);
+            // $(this).toggleClass('future', schedule > hour);
+            if(schedule < hour) {
+                $(this).toggleClass('past');
+            } else if (schedule == hour) {
+                $(this).toggleClass('present');
+            } else {
+                $(this).toggleClass('future');
+            }
         });
     }
 
