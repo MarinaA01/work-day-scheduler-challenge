@@ -5,11 +5,11 @@ var rootEl = $('#root');
 
 $(function () {
     var today = dayjs();
-    var hour = dayjs().startOf(hour).format('H A');
-    var button = $('.saveBtn')
-    var description = $('.description')
+    var hour = dayjs().hour();
+    var button = $('.saveBtn');
+    var description = $('.description');
 
-
+    // Time blocks fnction 
     function timeBlocks() {
         $('.time-block').each(function() {
             const schedule = parseInt(this.id);
