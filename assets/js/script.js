@@ -38,7 +38,7 @@ $(function () {
             const task = $(this).siblings('.description').val();
             const description = $(this).parent().attr('id');
             // code from Tiny called JavaScript and localStorage in a nutshell https://www.tiny.cloud/blog/javascript-localstorage/
-            localStorage.setItem(description, task);
+            localStorage.setItem(task);
 
             for(var i = 9; i < 18; i++) {
                 $('hour-' + i + ' .description').val(localStorage.getItem('hour-' + i));
